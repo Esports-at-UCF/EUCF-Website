@@ -43,7 +43,7 @@ export default function Connect() {
                   {...(s.external
                     ? { target: "_blank", rel: "noopener noreferrer" }
                     : {})}
-                  aria-label={s.label === "Email" ? "Email EUCF" : `EUCF on ${s.label}`}
+                  aria-label={s.label === "Email" ? "Email EUCF" : `EUCF on ${s.label} (opens in new tab)`}
                   className="flex items-center justify-center transition-transform duration-200 hover:scale-110 focus-visible:scale-110"
                 >
                   <Image
@@ -53,7 +53,6 @@ export default function Connect() {
                     height={150}
                     className="object-contain w-28 h-28 sm:w-37.5 sm:h-37.5"
                   />
-                  {s.external && <span className="sr-only"> (opens in new tab)</span>}
                 </a>
               </li>
             ))}
@@ -65,6 +64,7 @@ export default function Connect() {
               src="/knighto.png"
               alt="Knighto, the EUCF mascot"
               fill
+              sizes="(min-width: 768px) 50vw, 100vw"
               className="object-contain"
             />
           </div>

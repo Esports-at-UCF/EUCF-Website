@@ -33,7 +33,7 @@ export default async function FeaturedStory() {
                     href={story.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    aria-label={`${linkLabel}: ${story.title}`}
+                    aria-describedby={headingId}
                     className="mt-8 md:mt-10 inline-block py-2 text-gold-deep font-semibold underline underline-offset-4 hover:no-underline"
                   >
                     {linkLabel}
