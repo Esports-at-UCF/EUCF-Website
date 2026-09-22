@@ -21,10 +21,17 @@ export default function OfficersCarousel({ officers }: { officers: Officer[] }) 
   const containerNodeRef = useRef<HTMLDivElement | null>(null);
   const wrapperRef = useRef<HTMLDivElement | null>(null);
 
+  const hasActiveCardRef = useRef(false);
+
   const hasActiveCard = activeIndex !== null;
 
+  const setActive = (index: number | null) => {
+    hasActiveCardRef.current = index !== null;
+    setActiveIndex(index);
+  };
+
   const handleTap = (index: number) => {
-    setActiveIndex((prev) => (prev === index ? null : index));
+    setActive(activeIndex === index ? null : index);
   };
 
   useEffect(() => {
@@ -51,7 +58,7 @@ export default function OfficersCarousel({ officers }: { officers: Officer[] }) 
 
     const step = () => {
       const isUserScrolling = Date.now() < userScrollingUntilRef.current;
-      if (!isHoveredRef.current && !isFocusedRef.current && !isUserScrolling) {
+      if (!isHoveredRef.current && !isFocusedRef.current && !hasActiveCardRef.current && !isUserScrolling) {
         const halfWidth = halfWidthRef.current;
         if (halfWidth > 0)
         {
@@ -86,7 +93,7 @@ export default function OfficersCarousel({ officers }: { officers: Officer[] }) 
     const dismissOutside = (e: PointerEvent) => {
       if (!wrapperRef.current?.contains(e.target as Node))
       {
-        setActiveIndex(null);
+        setActive(null);
       }
     };
     document.addEventListener("pointerdown", dismissOutside);
@@ -123,7 +130,7 @@ export default function OfficersCarousel({ officers }: { officers: Officer[] }) 
       onMouseEnter={() => { isHoveredRef.current = true; }}
       onMouseLeave={() => {
         isHoveredRef.current = false;
-        setActiveIndex(null);
+        setActive(null);
       }}
       onFocus={(e) => {
         if ((e.target as HTMLElement).matches(":focus-visible")) {
@@ -133,7 +140,7 @@ export default function OfficersCarousel({ officers }: { officers: Officer[] }) 
       onBlur={(e) => {
         if (!e.currentTarget.contains(e.relatedTarget as Node | null)) {
           isFocusedRef.current = false;
-          setActiveIndex(null);
+          setActive(null);
         }
       }}
     >

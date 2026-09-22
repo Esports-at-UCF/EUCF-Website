@@ -107,4 +107,19 @@ describe("OfficersCarousel auto-scroll", () => {
 
     await waitFor(() => expect(strip.scrollLeft).toBeGreaterThan(0), { timeout: 3000 });
   });
+
+  it("pauses while a card is tapped and resumes after tapping outside", async () => {
+    render(<OfficersCarousel officers={officers} />);
+    const strip = screen.getByRole("region", { name: "Officers list" });
+
+    await waitFor(() => expect(strip.scrollLeft).toBeGreaterThan(0), { timeout: 3000 });
+
+    fireEvent.click(screen.getByRole("button", { name: /Prez/ }));
+    strip.scrollLeft = 0;
+    await new Promise((resolve) => setTimeout(resolve, 800));
+    expect(strip.scrollLeft).toBe(0);
+
+    fireEvent.pointerDown(document.body);
+    await waitFor(() => expect(strip.scrollLeft).toBeGreaterThan(0), { timeout: 3000 });
+  });
 });
