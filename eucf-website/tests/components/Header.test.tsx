@@ -1,7 +1,9 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import Header from "@/components/Header";
+
+vi.mock("next/navigation", () => ({ usePathname: () => "/titles/valorant" }));
 
 const NAV = [
   { href: "/about", label: "ABOUT US" },
@@ -53,5 +55,28 @@ describe("Header", () => {
 
     expect(button).toHaveAttribute("aria-expanded", "false");
     expect(mobileNav).toHaveAttribute("aria-hidden", "true");
+  });
+
+  it("marks the section of the current page with aria-current", () => {
+    render(<Header />);
+    for (const link of screen.getAllByRole("link", { name: "TITLES", hidden: true })) {
+      expect(link).toHaveAttribute("aria-current", "page");
+    }
+    for (const link of screen.getAllByRole("link", { name: "ABOUT US", hidden: true })) {
+      expect(link).not.toHaveAttribute("aria-current");
+    }
+  });
+
+  it("closes the mobile menu on Escape and returns focus to the button", async () => {
+    render(<Header />);
+    const button = screen.getByRole("button", { name: "Open menu" });
+    await userEvent.click(button);
+
+    const mobileNav = document.getElementById("mobile-nav")!;
+    mobileNav.querySelector("a")!.focus();
+    await userEvent.keyboard("{Escape}");
+
+    expect(button).toHaveAttribute("aria-expanded", "false");
+    expect(button).toHaveFocus();
   });
 });

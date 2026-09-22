@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 const NAV_LINKS = [
   { href: "/about", label: "ABOUT US" },
@@ -14,17 +15,28 @@ const NAV_LINKS = [
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
+  const pathname = usePathname() ?? "";
+
+  const isCurrent = (href: string) => pathname === href || pathname.startsWith(`${href}/`);
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLElement>) => {
+    if (e.key === "Escape" && isMenuOpen) {
+      setIsMenuOpen(false);
+      menuButtonRef.current?.focus();
+    }
+  };
 
   return (
-    <header className="sticky top-0 z-50 bg-black w-full">
+    <header className="sticky top-0 z-50 bg-black w-full" onKeyDown={handleKeyDown}>
       <nav
         className="flex items-center justify-between px-4 md:px-6 h-19"
         aria-label="Primary"
       >
-        <Link href="/" className="relative block w-32 h-10 md:w-40 md:h-12 shrink-0">
+        <Link href="/" aria-label="EUCF home" className="relative block w-32 h-10 md:w-40 md:h-12 shrink-0">
           <Image
             src="/esportsLogo.png"
-            alt="EUCF Esports Logo"
+            alt=""
             fill
             priority
             sizes="(min-width: 768px) 160px, 128px"
@@ -38,7 +50,10 @@ export default function Header() {
             <Link
               key={link.href}
               href={link.href}
-              className="font-heading italic font-bold text-white text-sm lg:text-base tracking-wide hover:text-gold transition-colors duration-200"
+              aria-current={isCurrent(link.href) ? "page" : undefined}
+              className={`font-heading italic font-bold text-sm lg:text-base tracking-wide hover:text-gold transition-colors duration-200 ${
+                isCurrent(link.href) ? "text-gold" : "text-white"
+              }`}
             >
               {link.label}
             </Link>
@@ -47,6 +62,7 @@ export default function Header() {
 
         {/* Hamburger button (mobile) */}
         <button
+          ref={menuButtonRef}
           className="md:hidden flex flex-col justify-center items-center w-11 h-11 gap-1.5"
           onClick={() => setIsMenuOpen(!isMenuOpen)}
           aria-label={isMenuOpen ? "Close menu" : "Open menu"}
@@ -87,7 +103,10 @@ export default function Header() {
               key={link.href}
               href={link.href}
               onClick={() => setIsMenuOpen(false)}
-              className="font-heading italic font-bold text-white text-base py-3 tracking-wide hover:text-gold transition-colors duration-200"
+              aria-current={isCurrent(link.href) ? "page" : undefined}
+              className={`font-heading italic font-bold text-base py-3 tracking-wide hover:text-gold transition-colors duration-200 ${
+                isCurrent(link.href) ? "text-gold" : "text-white"
+              }`}
             >
               {link.label}
             </Link>
