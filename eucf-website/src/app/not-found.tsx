@@ -13,14 +13,14 @@ export default function NotFound() {
           <Link
             href="/"
             className="w-full sm:w-auto text-center rounded-lg bg-black px-6 py-3 text-lg font-semibold text-white
-                       transition-transform duration-300 hover:scale-105"
+                       transition-colors duration-300 hover:bg-gold-deep"
           >
             Back to home
           </Link>
           <Link
             href="/titles"
             className="w-full sm:w-auto text-center rounded-lg border-2 border-black px-6 py-3 text-lg font-semibold text-heading
-                       transition-transform duration-300 hover:scale-105"
+                       transition-colors duration-300 hover:bg-gold-deep hover:border-gold-deep hover:text-white"
           >
             Browse titles
           </Link>

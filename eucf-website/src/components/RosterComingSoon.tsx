@@ -39,7 +39,7 @@ export default function RosterComingSoon({ gameName, icon }: RosterComingSoonPro
         <Link
           href="/titles"
           className="mt-8 rounded-lg border-2 border-black px-6 py-3 text-lg font-semibold text-heading
-                     transition-transform duration-300 hover:scale-105"
+                     transition-colors duration-300 hover:bg-gold-deep hover:border-gold-deep hover:text-white"
         >
           Browse other titles
         </Link>
