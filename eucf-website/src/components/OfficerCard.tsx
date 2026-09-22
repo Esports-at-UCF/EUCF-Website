@@ -32,6 +32,7 @@ export default function OfficerCard({ name, position, image, isActive, onTap, hi
         src={image}
         alt={`${name}, ${position} of EUCF`}
         fill
+        sizes="(min-width: 768px) 400px, (min-width: 640px) 340px, 260px"
         loading={loading}
         fetchPriority={fetchPriority}
         onLoad={() => setLoaded(true)}

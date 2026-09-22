@@ -22,6 +22,7 @@ export default function SponsorCard({ name, logo, website }: SponsorCardProps) {
           src={logo}
           alt={`${name} logo`}
           fill
+          sizes="(min-width: 640px) 50vw, 100vw"
           className="object-contain p-6"
         />
       </div>

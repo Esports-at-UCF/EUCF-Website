@@ -20,6 +20,7 @@ export default function TitleCard({ name, slug, icon }: TitleCardProps) {
           src={icon}
           alt={`${name} icon`}
           fill
+          sizes="(min-width: 768px) 33vw, (min-width: 640px) 50vw, 100vw"
           className="object-contain p-6"
         />
       </div>
